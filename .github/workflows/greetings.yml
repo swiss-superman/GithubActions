@@ -1,0 +1,36 @@
+name: Greet a first time contributor
+
+on:
+  pull_request:
+    type: [opened]
+  issues:
+    type: [opened]
+
+jobs:
+  welcome:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Greet the first time contributor
+        uses: actions/first-interaction@v6
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-message: |
+            Welcome to my personal github pages repo. Looks like you have opened your first issue.
+            Please read the CODE_OF_CONDUCT.md to understand our community interaction standards and
+            CONTRIBUTING.md to learn the rules for contributing to this project.
+            We assume that you have already read these documents atleast once before creating this issue.
+
+            Thanks and Regards.
+            Mayura et al.
+          pr-message: |
+            Welcome to my personal github pages repo. Looks like you have opened your first pull request here.
+            Please read the CODE_OF_CONDUCT.md to understand our community interaction standards and
+            CONTRIBUTING.md to learn the rules for contributing to this project.
+            We assume that you have already read these documents atleast once before creating this request.
+
+            Thanks and Regards.
+            Mayura et al.
+
