@@ -16,8 +16,8 @@ jobs:
       - name: Greet the first time contributor
         uses: actions/first-interaction@v3
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          issue-message: |
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          issue_message: |
             Welcome to my personal github pages repo. Looks like you have opened your first issue.
             Please read the CODE_OF_CONDUCT.md to understand our community interaction standards and
             CONTRIBUTING.md to learn the rules for contributing to this project.
@@ -25,7 +25,7 @@ jobs:
 
             Thanks and Regards.
             Mayura et al.
-          pr-message: |
+          pr_message: |
             Welcome to my personal github pages repo. Looks like you have opened your first pull request here.
             Please read the CODE_OF_CONDUCT.md to understand our community interaction standards and
             CONTRIBUTING.md to learn the rules for contributing to this project.
