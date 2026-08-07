@@ -1,4 +1,4 @@
-name: Step types in GHA.
+name: Workflows form a DAG.
 on:
   workflow_dispatch:
     inputs:
