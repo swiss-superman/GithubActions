@@ -1,0 +1,22 @@
+name: Triggering Events
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, release/*, testing]
+  schedule:
+    - cron: "0 0 * * *" # UTC 00:00
+  pull_request:
+    type: [opened, synchronize, reopened]
+    paths:
+      - ".github/workflows/*.yml"
+      - "slobberknocker/peter/*.md"
+
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump full event JSON
+        run: |
+          echo "== $GITHUB_EVENT_NAME payload =="
+          cat "$GITHUB_EVENT_PATH"
