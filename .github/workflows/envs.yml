@@ -1,0 +1,29 @@
+name: Environment variables
+
+on:
+  workflow_dispatch:
+
+env:
+  WORKFLOW_VAR: wfvar
+
+jobs:
+  first-job:
+    env:
+      JOB_VAR: jbvar
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hello, to the world!
+        env:
+          STEP_VAR: stpvar
+        run: |
+          echo "Step scoped var: $STEP_VAR"
+          echo "Job scoped var: $JOB_VAR"
+          echo "Workflow scoped var: $WORKFLOW_VAR"
+  second-job:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: second-job running parallely
+        run:
+          echo "first-job-step scoped var: ${STEP_VAR:-<UNSET>}"
+          echo "first-job scoped var: ${JOB_VAR:-<UNSET>}"
+          echo "Workflow scoped var: $WORKFLOW_VAR"
