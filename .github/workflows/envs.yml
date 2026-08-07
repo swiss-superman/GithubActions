@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: second-job running parallely
-        run:
+        run: |
           echo "first-job-step scoped var: ${STEP_VAR:-<UNSET>}"
           echo "first-job scoped var: ${JOB_VAR:-<UNSET>}"
           echo "Workflow scoped var: $WORKFLOW_VAR"
