@@ -1,0 +1,31 @@
+name: Step types in GHA.
+on:
+  workflow_dispatch:
+    inputs:
+      to-greet:
+        description: Who to greet in log
+        required: true
+        default: World
+        type: string
+
+jobs:
+  hello-inline-bash:
+    runs-on: ubuntu-22.04
+    steps:
+     - run: |
+        echo "Hello, world"
+
+  hello-inline-python:
+    runs-on: ubuntu-22.04
+    steps:
+     - run: |
+        print("Hello, world")
+       shell: python
+
+  hello-action:
+    runs-on: ubuntu-22.04
+    steps:
+     - name: Hello, using github hello action.
+       uses: actions/hello-world-javascript-action@main
+       with:
+        who-to-greet: ${{ inputs.to-greet }}
