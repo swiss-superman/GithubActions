@@ -1,0 +1,34 @@
+name: Passing variables between jobs and steps.
+
+on:
+  workflow_dispatch:
+
+env:
+  REGISTRY: docker.io
+
+jobs:
+  producer:
+    runs-on: ubuntu-latest
+    outputs:
+      produced_value: ${{ steps.generate-value.outputs.produced_value }}
+    steps:
+      - name: Generate and export produced_value
+        id: generate-value # step id is a must
+        run: |
+          produced_value="j6uTxUo="
+          # Step output (for job output)
+          echo "produced_value=${produced_value}" >> "$GITHUB_OUTPUT"
+          # Job-scoped env variable.
+          echo "PRODUCED_VALUE=${produced_value}" >> "$GITHUB_ENV"
+      - name: Inspect values inside producer
+        run: |
+          echo "produced_value (step output): ${{ steps.generate-value.outputs.produced_value }}"
+          echo "PRODUCED_VALUE set via GITHUB_ENV $PRODUCED_VALUE"
+  consumer:
+    runs-on: ubuntu-22.04
+    needs: producer
+    steps:
+      - name: Inspect values in consumer (PRODUCED_VALUE is job scoped)
+        run: |
+          echo "produced_value in consumer: ${{ needs.producer.outputs.produced_value }}"
+          echo "PRODUCED_VALUE in consumer: ${PRODUCED_VALUE:-<UNSET>}"
