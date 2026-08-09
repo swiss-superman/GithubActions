@@ -1,9 +1,21 @@
-name: Checking if an artifact produced by another workflow can be used in some other.
+name: Checking if an artifact produced by another workflow can be used in some other(no).
 
 on:
   workflow_dispatch:
 
 jobs:
+  # Added to make this work.
+  producer-artifact:
+    name: Produce the nginx image tar artifact.
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          docker save -o alpine-nginx.tar docker.io/library/nginx:1.31-alpine
+      - uses: actions/upload-artifact@v4
+        with:
+          name: container-tar
+          path: alpine-nginx.tar
+
   trivy-scan:
     name: Trivy image scanning on a tar ball.
     runs-on: ubuntu-latest
@@ -19,7 +31,7 @@ jobs:
       - name: Image testing
         id: scanning
         run: |
-          trivy image --input alpine.tar --format json >> "$GITHUB_OUTPUT"
+          trivy image --input alpine-nginx.tar --format json >> "$GITHUB_OUTPUT"
 
   output-verification:
     name: Parsing the json output using jq.
