@@ -1,0 +1,19 @@
+name: Container action hello
+
+on:
+  workflow_dispatch:
+
+jobs:
+  helo:
+    name: Hello, using a container action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./authoring-actions
+        id: container-action-instance
+        with:
+          who-to-greet: "Swiss Superman"
+      - shell: bash
+        run: |
+          echo "time: ${{ steps.container-action-instance.outputs.time }}"
+          echo "greeting: ${{ steps.container-action-instance.outputs.greeting }}
