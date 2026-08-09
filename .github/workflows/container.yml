@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
+          docker pull docker.io/library/nginx:1.31-alpine
           docker save -o alpine-nginx.tar docker.io/library/nginx:1.31-alpine
       - uses: actions/upload-artifact@v4
         with:
