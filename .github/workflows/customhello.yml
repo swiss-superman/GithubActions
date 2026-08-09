@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v6
       - name: Using our custom hello action
         id: composite-action-instance
-        uses: ./authoring-actions
+        uses: ./authoring-actions/action
         with:
           to-name: "From the first instance"
       - env:
@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v6
       - name: Second usage of the custom composite hello action
         id: composite-action-instance
-        uses: ./authoring-actions
+        uses: ./authoring-actions/action
       - env:
           RANDOM_NUMBER: ${{ steps.composite-action-instance.outputs.random-number }}
         shell: bash
