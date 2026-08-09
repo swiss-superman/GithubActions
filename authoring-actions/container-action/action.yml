@@ -2,12 +2,12 @@ name: Container Hello Action
 description: A sample container hello action
 author: Swiss Superman
 
-input:
+inputs:
   who-to-greet:
     description: Whom is the action supposed to greet.
     required: true
     default: World
-output:
+outputs:
   time:
     description: UTC Time at the time of greeting.
   greeting:
@@ -19,4 +19,3 @@ runs:
   image: Dockerfile
   args:
     - ${{ inputs.who-to-greet }}
-
