@@ -33,7 +33,12 @@ jobs:
       - name: Image testing
         id: scanning
         run: |
-          trivy image --input alpine-nginx.tar --format json >> "$GITHUB_OUTPUT"
+          trivy image --input alpine-nginx.tar --format json > trivy.json
+          {
+            echo 'trivy-result<<EOF'
+            cat trivy.json
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
 
   output-verification:
     name: Parsing the json output through wc.
