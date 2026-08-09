@@ -1,0 +1,40 @@
+name: Runner types.
+
+on:
+  workflow_dispatch:
+    input:
+      run-platform:
+        description: Runner platform.
+        required: false
+        default: ubuntu-22.04
+
+jobs:
+  ususal-runner:
+    runs-on: ubuntu-22.04
+    steps:
+     - run: |
+        echo "Hello, from a ususal-runner"
+
+  using-containers:
+    runs-on: ubuntu-22.04
+    container:
+      image: aquasec/trivy
+    steps:
+     - run: |
+        echo "Updating..."
+        apk update
+        echo "Pulling an alpine container image from docker.io"
+        docker pull docker.io/library/alpine:3.24
+        echo "Scanning the image for vuln"
+        docker run --rm aquasec/trivy image docker.io/library/alpine:3.24
+        echo "Done"
+  third-party:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Use any third-party runners from providers like namespace"
+  self-hosted:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Set up runners using k8s and cloud providers for self hosted runners"
