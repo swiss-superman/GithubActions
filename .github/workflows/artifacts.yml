@@ -19,6 +19,7 @@ jobs:
           path: alpine.tar
   consumer:
     name: Consume the artifact uploaded.
+    needs: producer
     runs-on: ubuntu-latest
     container:
       image: aquasec/trivy

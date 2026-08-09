@@ -1,0 +1,32 @@
+name: Checking if an artifact produced by another workflow can be used in some other.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  trivy-scan:
+    name: Trivy image scanning on a tar ball.
+    runs-on: ubuntu-latest
+    outputs:
+      trivy-result: ${{ steps.scanning.outputs.trivy-result }}
+    container:
+      image: aquasec/trivy
+    steps:
+      - name: Download the alpine image tarball.
+        uses: actions/download-artifact@v4
+        with:
+          name: container-tar
+      - name: Image testing
+        id: scanning
+        run: |
+          trivy image --input alpine.tar --format json >> "$GITHUB_OUTPUT"
+
+  output-verification:
+    name: Parsing the json output using jq.
+    runs-on: ubuntu-latest
+    needs: trivy-scan
+    steps:
+      - name: Parse the trivy scan result using jq and print the lines in the output.
+        run: |
+          echo "${{ needs.trivy-scan.outputs.trivy-result }}" | jq
+          echo "${{ needs.trivy-scan.outputs.trivy-result }}" | wc -l
