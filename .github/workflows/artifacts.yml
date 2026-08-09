@@ -1,0 +1,33 @@
+name: Artifacts and storage of data.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  producer:
+    name: Produce Artifacts.
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull the docker image & save it.
+        run: |
+          docker pull docker.io/library/alpine:3.24
+          docker save -o alpine.tar docker.io/library/alpine:3.24
+      - name: Upload the artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: container-tar
+          path: alpine.tar
+  consumer:
+    name: Consume the artifact uploaded.
+    runs-on: ubuntu-latest
+    container:
+      name: aquasec/trivy
+    steps:
+      - name: Consume
+        uses: actions/download-artifact@v4
+        with:
+          name: container-tar
+      - name: Trivy scan on the tar ball.
+        run: |
+          trivy image --input alpine.tar
+          echo "Done..."
