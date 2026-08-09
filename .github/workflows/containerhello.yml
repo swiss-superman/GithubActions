@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: ./authoring-actions
+      - uses: ./authoring-actions/container-action
         id: container-action-instance
         with:
           who-to-greet: "Swiss Superman"
