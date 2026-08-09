@@ -1,0 +1,35 @@
+name: Caching actions (10GB cap def.)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  actions-cache:
+    name: Demo cache
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restore Cache.
+        id: demo-cache
+        uses: actions/cache@v4
+        with:
+          path: demo-cache-dir
+          key: demo-cache-v1
+        # Populate directory only on miss.
+      - name: Populate cache directory
+        if: steps.demo-cache.outputs.cache-hit != 'true'
+        run: |
+          echo "Cache miss, generating contents"
+          mkdir -p demo-cache-dir
+          date > demo-cache-dir/timestamp.txt
+
+      - name: Save cache
+        if: steps.demo-cache.outputs.cache-hit != 'true'
+        uses: actions/cache@v4
+        with:
+          path: demo-cache-dir
+          key: demo-cache-v1
+
+      - name: Verify cache status
+        run: |
+          echo "Cache hit = ${{ steps.demo-cache.outputs.cache-hit }}"
+          cat demo-cache-dir/timestamp.txt
