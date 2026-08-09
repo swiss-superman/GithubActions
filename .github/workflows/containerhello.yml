@@ -16,4 +16,4 @@ jobs:
       - shell: bash
         run: |
           echo "time: ${{ steps.container-action-instance.outputs.time }}"
-          echo "greeting: ${{ steps.container-action-instance.outputs.greeting }}
+          echo "greeting: ${{ steps.container-action-instance.outputs.greeting }}"
