@@ -21,7 +21,7 @@ jobs:
     name: Consume the artifact uploaded.
     runs-on: ubuntu-latest
     container:
-      name: aquasec/trivy
+      image: aquasec/trivy
     steps:
       - name: Consume
         uses: actions/download-artifact@v4
