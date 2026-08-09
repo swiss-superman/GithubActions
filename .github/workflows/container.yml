@@ -34,6 +34,7 @@ jobs:
         id: scanning
         run: |
           trivy image --input alpine-nginx.tar --format json > trivy.json
+          # Github output expects values in the form key=value
           {
             echo 'trivy-result<<EOF'
             cat trivy.json
@@ -47,4 +48,8 @@ jobs:
     steps:
       - name: Parse the trivy scan result to print the number of lines.
         run: |
-          echo "${{ needs.trivy-scan.outputs.trivy-result }}" | wc -l
+          set -x
+          which wc || true
+          wc --version || true
+          echo "OUTPUT LENGTH:"
+          echo '${{ needs.trivy-scan.outputs.trivy-result }}' | wc -l
