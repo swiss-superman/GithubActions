@@ -8,7 +8,7 @@ name = os.getenv("INPUT_WHO_TO_GREET", "World")
 # Or can be read as argv using sys
 
 greeting = f"Hello, {name}"
-time = f"{dt.datetime.now(dt.timezone.utc) UTC}"
+time = f"{dt.datetime.now(dt.timezone.utc)} UTC"
 
 # https://docs.github.com/en/actions/writing-workflows
 # Emitting a GHA NOTICE annotation
