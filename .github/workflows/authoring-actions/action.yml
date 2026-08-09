@@ -1,0 +1,26 @@
+name: Custom hello composite action.
+description: Say hello to anyone you like and get a random number for yourself.
+
+inputs:
+  to-name:
+    description: Who to say hello to
+    required: true
+    default: "World"
+
+outputs:
+  random-number:
+    description: "Random Number"
+    value: ${{ steps.random-number-generator.outputs.random-number }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set Greeting.
+      shell: bash
+      run: |
+        echo "Hello, ${{ inputs.to-name }}"
+    - name: Random number generator
+      id: random-number-generator
+      shell: bash
+      run: |
+        echo "random-number=$(echo $RANDOM)" >> "$GITHUB_OUTPUT"

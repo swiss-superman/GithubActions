@@ -1,0 +1,35 @@
+name: Testing the custom hello composite action.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  first-hello:
+    name: One use of custom hello composite action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Using our custom hello action
+        id: composite-action-instance
+        uses: ./authoring-actions/composite-action
+        with:
+          to-name: "From the first instance"
+      - env:
+          RANDOM_NUMBER: ${{ steps.composite-action-instance.outputs.random-number }}
+        shell: bash
+        run: |
+          echo "random: $RANDOM_NUMBER"
+
+  second-hello:
+    name: Second usage of the composite custom hello action
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v6
+      - name: Second usage of the custom composite hello action
+        id: composite-action-instance
+        uses: ./authoring-actions/action
+      - env:
+          RANDOM_NUMBER: ${{ steps.composite-action-instance.outputs.random-number }}
+        shell: bash
+        run: |
+          echo "random: $RANDOM_NUMBER"
